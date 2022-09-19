@@ -7,6 +7,8 @@ class Window(QtWidgets.QWidget):
 
         self.clientModel = QtCore.QSortFilterProxyModel()
         self.clientModel.setDynamicSortFilter(True)
+        # default set filter all key columns
+        self.clientModel.setFilterKeyColumn(-1)
 
         self.serverGroupBox = QtWidgets.QGroupBox("Server Stat")
         self.clientGroupBox = QtWidgets.QGroupBox("Sorted/Filtered Client Stat")
@@ -25,7 +27,7 @@ class Window(QtWidgets.QWidget):
         self.filterCaseSensitivityCheckBox = QtWidgets.QCheckBox("Case sensitive filter")
 
         self.filterPatternLineEdit = QtWidgets.QLineEdit()
-        self.filterPatternLabel = QtWidgets.QLabel("&Filter pattern:")
+        self.filterPatternLabel = QtWidgets.QLabel("&Search:")
         self.filterPatternLabel.setBuddy(self.filterPatternLineEdit)
 
         self.filterSyntaxComboBox = QtWidgets.QComboBox()
@@ -59,8 +61,8 @@ class Window(QtWidgets.QWidget):
         proxyLayout.addWidget(self.clientView, 0, 0, 1, 3)
         proxyLayout.addWidget(self.filterPatternLabel, 1, 0)
         proxyLayout.addWidget(self.filterPatternLineEdit, 1, 1, 1, 2)
-        proxyLayout.addWidget(self.filterColumnLabel, 3, 0)
-        proxyLayout.addWidget(self.filterColumnComboBox, 3, 1, 1, 2)
+        # proxyLayout.addWidget(self.filterColumnLabel, 3, 0)
+        # proxyLayout.addWidget(self.filterColumnComboBox, 3, 1, 1, 2)
         self.clientGroupBox.setLayout(proxyLayout)
 
         mainLayout = QtWidgets.QVBoxLayout()
@@ -72,15 +74,15 @@ class Window(QtWidgets.QWidget):
         self.resize(800, 650)
 
         self.clientView.sortByColumn(1, QtCore.Qt.AscendingOrder)
-        self.filterColumnComboBox.setCurrentIndex(1)
+        self.filterColumnComboBox.setCurrentIndex(0)
 
         self.filterPatternLineEdit.setText("")
-        self.filterCaseSensitivityCheckBox.setChecked(True)
-        self.sortCaseSensitivityCheckBox.setChecked(True)
+        self.filterCaseSensitivityCheckBox.setChecked(False)
+        self.sortCaseSensitivityCheckBox.setChecked(False)
 
     def setSourceModel(self, model):
         self.clientModel.setSourceModel(model)
-        #self.serverView.setModel(model)
+        self.serverView.setModel(model)
 
     def filterRegExpChanged(self):
         syntax_nr = self.filterSyntaxComboBox.itemData(self.filterSyntaxComboBox.currentIndex())
