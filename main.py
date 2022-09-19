@@ -2,7 +2,8 @@ import sys
 import random
 from PySide2 import QtGui, QtWidgets, QtCore
 from PySide2.QtWidgets import QApplication, QMainWindow
-from ui_statview import Window, createDeviceStatModel
+from netcat import createDeviceStatModel
+from ui_statview import Window
 
 if __name__ == '__main__':
 
@@ -10,6 +11,7 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     window = Window()
-    window.setSourceModel(createDeviceStatModel(window))
+    window.setClientModel(createDeviceStatModel(window))
+    window.setServerModel(createDeviceStatModel(window))
     window.show()
     sys.exit(app.exec_())
