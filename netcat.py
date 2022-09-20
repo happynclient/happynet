@@ -18,17 +18,19 @@ def addDevice(model, name, mode, mac, ip, sockaddr, uptime):
 def createDeviceStatModel(parent):
     model = QtGui.QStandardItemModel(0, 6, parent)
 
-    model.setHeaderData(0, QtCore.Qt.Horizontal, "name")
-    model.setHeaderData(1, QtCore.Qt.Horizontal, "mode")
-    model.setHeaderData(2, QtCore.Qt.Horizontal, "mac")
-    model.setHeaderData(3, QtCore.Qt.Horizontal, "ip")
-    model.setHeaderData(4, QtCore.Qt.Horizontal, "sockaddr")
-    model.setHeaderData(5, QtCore.Qt.Horizontal, "uptime(s)")
+    model.setHeaderData(0, QtCore.Qt.Horizontal, "设备名称")
+    model.setHeaderData(1, QtCore.Qt.Horizontal, "通讯模式")
+    model.setHeaderData(2, QtCore.Qt.Horizontal, "happynet mac地址")
+    model.setHeaderData(3, QtCore.Qt.Horizontal, "happynet 内网ip")
+    model.setHeaderData(4, QtCore.Qt.Horizontal, "本机对外通信ip")
+    model.setHeaderData(5, QtCore.Qt.Horizontal, "最近活动时间")
 
     for device in get_edges():
+        print(device)
         addDevice(model, device['desc'], device['mode'], device['macaddr'],
                          device['ip4addr'], device['sockaddr'],
-                  QtCore.QDateTime(QtCore.QDate(2006, 12, 22), QtCore.QTime(9, 44)))
+                         QtCore.QDateTime.fromSecsSinceEpoch(device['last_seen']))
+                  #QtCore.QDateTime(QtCore.QDate(2006, 12, 22), QtCore.QTime(9, 44)))
 
     return model
 
@@ -207,10 +209,7 @@ def subcmd_show_supernodes(rpc, args):
 
     return str_table(rows, columns, args.orderby)
 
-def get_edges():
-    rpc = JsonUDP(5644)
-    rows = rpc.read('edges')
-    return rows
+
 
 def subcmd_show_edges(rpc, args):
     rows = rpc.read('edges')
@@ -323,3 +322,9 @@ def main():
         exit(1)
 
     print(result)
+
+ManagerRPC = JsonUDP(5644)
+
+def get_edges():
+    rows = ManagerRPC.read('edges')
+    return rows

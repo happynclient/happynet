@@ -11,7 +11,7 @@ class Window(QtWidgets.QWidget):
         self.clientModel.setFilterKeyColumn(-1)
 
         self.serverGroupBox = QtWidgets.QGroupBox("Server Stat")
-        self.clientGroupBox = QtWidgets.QGroupBox("Sorted/Filtered Client Stat")
+        self.clientGroupBox = QtWidgets.QGroupBox("客户端列表")
 
         self.serverView = QtWidgets.QTreeView()
         self.serverView.setRootIsDecorated(False)
@@ -66,12 +66,12 @@ class Window(QtWidgets.QWidget):
         self.clientGroupBox.setLayout(proxyLayout)
 
         mainLayout = QtWidgets.QVBoxLayout()
-        mainLayout.addWidget(self.serverGroupBox)
+        #mainLayout.addWidget(self.serverGroupBox)
         mainLayout.addWidget(self.clientGroupBox)
         self.setLayout(mainLayout)
 
         self.setWindowTitle("Happynet Device Stat")
-        self.resize(900, 650)
+        self.resize(900, 450)
 
         self.clientView.sortByColumn(1, QtCore.Qt.AscendingOrder)
         self.filterColumnComboBox.setCurrentIndex(0)
