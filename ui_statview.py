@@ -71,7 +71,7 @@ class Window(QtWidgets.QWidget):
         self.setLayout(mainLayout)
 
         self.setWindowTitle("Happynet Device Stat")
-        self.resize(800, 650)
+        self.resize(900, 650)
 
         self.clientView.sortByColumn(1, QtCore.Qt.AscendingOrder)
         self.filterColumnComboBox.setCurrentIndex(0)
