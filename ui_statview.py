@@ -1,5 +1,5 @@
-
 from PySide2 import QtCore, QtWidgets, QtGui
+from netcat import get_edges
 
 class Window(QtWidgets.QWidget):
     def __init__(self):
@@ -10,7 +10,7 @@ class Window(QtWidgets.QWidget):
         # default set filter all key columns
         self.clientModel.setFilterKeyColumn(-1)
 
-        self.serverGroupBox = QtWidgets.QGroupBox("Server Stat")
+        self.serverGroupBox = QtWidgets.QGroupBox("服务端列表")
         self.clientGroupBox = QtWidgets.QGroupBox("客户端列表")
 
         self.serverView = QtWidgets.QTreeView()
@@ -27,7 +27,7 @@ class Window(QtWidgets.QWidget):
         self.filterCaseSensitivityCheckBox = QtWidgets.QCheckBox("Case sensitive filter")
 
         self.filterPatternLineEdit = QtWidgets.QLineEdit()
-        self.filterPatternLabel = QtWidgets.QLabel("&Search:")
+        self.filterPatternLabel = QtWidgets.QLabel("&搜索:")
         self.filterPatternLabel.setBuddy(self.filterPatternLineEdit)
 
         self.filterSyntaxComboBox = QtWidgets.QComboBox()
@@ -80,10 +80,19 @@ class Window(QtWidgets.QWidget):
         self.filterCaseSensitivityCheckBox.setChecked(False)
         self.sortCaseSensitivityCheckBox.setChecked(False)
 
-    def setClientModel(self, model):
+    def updateClientModel(self):
+        model = self.updateDeviceStatModel()
         self.clientModel.setSourceModel(model)
+        self.clientView.header().resizeSection(0, 100)
+        self.clientView.header().resizeSection(1, 80)
+        self.clientView.header().resizeSection(2, 150)
+        self.clientView.header().resizeSection(3, 150)
+        self.clientView.header().resizeSection(4, 180)
+        #self.clientView.setColumnWidth(0, 200)
+        #self.clientView.resizeColumnToContents(0)
 
-    def setServerModel(self, model):
+    def updateServerModel(self):
+        model = self.updateDeviceStatModel()
         self.serverView.setModel(model)
 
     def filterRegExpChanged(self):
@@ -110,4 +119,30 @@ class Window(QtWidgets.QWidget):
 
         self.clientModel.setSortCaseSensitivity(caseSensitivity)
 
+    def addDevice(self, model, name, mode, mac, ip, sockaddr, uptime):
+        model.insertRow(0)
+        model.setData(model.index(0, 0), name)
+        model.setData(model.index(0, 1), mode)
+        model.setData(model.index(0, 2), mac)
+        model.setData(model.index(0, 3), ip)
+        model.setData(model.index(0, 4), sockaddr)
+        model.setData(model.index(0, 5), uptime)
 
+
+    def updateDeviceStatModel(self):
+        model = QtGui.QStandardItemModel(0, 6, self)
+
+        model.setHeaderData(0, QtCore.Qt.Horizontal, "设备名称")
+        model.setHeaderData(1, QtCore.Qt.Horizontal, "通讯模式")
+        model.setHeaderData(2, QtCore.Qt.Horizontal, "happynet mac地址")
+        model.setHeaderData(3, QtCore.Qt.Horizontal, "happynet 内网ip")
+        model.setHeaderData(4, QtCore.Qt.Horizontal, "本机对外通信ip:port")
+        model.setHeaderData(5, QtCore.Qt.Horizontal, "最近活动时间")
+
+        for device in get_edges():
+            self.addDevice(model, device['desc'], device['mode'], device['macaddr'],
+                             device['ip4addr'], device['sockaddr'],
+                             QtCore.QDateTime.fromSecsSinceEpoch(device['last_seen']).toString('yyyy-MM-dd hh:mm:ss'))
+                      #QtCore.QDateTime(QtCore.QDate(2006, 12, 22), QtCore.QTime(9, 44)))
+
+        return model

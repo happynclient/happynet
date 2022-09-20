@@ -2,38 +2,6 @@ import argparse
 import socket
 import json
 import collections
-from PySide2 import QtCore, QtWidgets, QtGui
-
-
-def addDevice(model, name, mode, mac, ip, sockaddr, uptime):
-    model.insertRow(0)
-    model.setData(model.index(0, 0), name)
-    model.setData(model.index(0, 1), mode)
-    model.setData(model.index(0, 2), mac)
-    model.setData(model.index(0, 3), ip)
-    model.setData(model.index(0, 4), sockaddr)
-    model.setData(model.index(0, 5), uptime)
-
-
-def createDeviceStatModel(parent):
-    model = QtGui.QStandardItemModel(0, 6, parent)
-
-    model.setHeaderData(0, QtCore.Qt.Horizontal, "设备名称")
-    model.setHeaderData(1, QtCore.Qt.Horizontal, "通讯模式")
-    model.setHeaderData(2, QtCore.Qt.Horizontal, "happynet mac地址")
-    model.setHeaderData(3, QtCore.Qt.Horizontal, "happynet 内网ip")
-    model.setHeaderData(4, QtCore.Qt.Horizontal, "本机对外通信ip")
-    model.setHeaderData(5, QtCore.Qt.Horizontal, "最近活动时间")
-
-    for device in get_edges():
-        print(device)
-        addDevice(model, device['desc'], device['mode'], device['macaddr'],
-                         device['ip4addr'], device['sockaddr'],
-                         QtCore.QDateTime.fromSecsSinceEpoch(device['last_seen']))
-                  #QtCore.QDateTime(QtCore.QDate(2006, 12, 22), QtCore.QTime(9, 44)))
-
-    return model
-
 
 class JsonUDP():
     """encapsulate communication with the edge"""
