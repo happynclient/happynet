@@ -294,5 +294,55 @@ def main():
 ManagerRPC = JsonUDP(5644)
 
 def get_edges():
+    """
+    :return:
+    [
+        {
+            'mode': 'p2p',
+            'ip4addr': '10.202.48.11/24',
+            'purgeable': 0,
+            'local': 1,
+            'macaddr': '00:FF:03:8F:10:1E',
+            'sockaddr': '192.168.100.100:49690',
+            'desc': 'BrainYPC',
+            'last_p2p': 1663654067,
+            'last_sent_query': 0,
+            'last_seen': 1663654067
+        },
+        {
+            'mode': 'p2p',
+            'ip4addr': '10.202.48.21/24',
+            'purgeable': 0,
+            'local': 0,
+            'macaddr': '00:FF:24:0F:C7:92',
+            'sockaddr': '140.75.169.115:1486',
+            'desc': 'BrainT420',
+            'last_p2p': 1663653383,
+            'last_sent_query': 0,
+            'last_seen': 1663653385
+        }
+    ]
+
+    """
     rows = ManagerRPC.read('edges')
+    return rows
+
+def get_supernodes():
+    """
+    :return:
+    [
+        {
+            'version': 'happyn3.1.1',
+            'purgeable': 0,
+            'current': 1,
+            'macaddr': '06:0B:5F:44:F1:7B',
+            'sockaddr': '159.75.40.133:40011',
+            'selection': 'rtt =     45 ms',
+            'last_seen': 1663653977,
+            'uptime': 1022140
+        }
+    ]
+
+    """
+    rows = ManagerRPC.read('supernodes')
     return rows
