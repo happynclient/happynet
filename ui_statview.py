@@ -10,8 +10,8 @@ class Window(QtWidgets.QWidget):
         # default set filter all key columns
         self.clientModel.setFilterKeyColumn(-1)
 
-        self.serverGroupBox = QtWidgets.QGroupBox("服务端列表")
-        self.clientGroupBox = QtWidgets.QGroupBox("客户端列表")
+        self.serverGroupBox = QtWidgets.QGroupBox("happyn服务端列表")
+        self.clientGroupBox = QtWidgets.QGroupBox("happyn网络客户端列表(不包括本机)")
 
         self.serverView = QtWidgets.QTreeView()
         self.serverView.setRootIsDecorated(False)
@@ -70,7 +70,12 @@ class Window(QtWidgets.QWidget):
         mainLayout.addWidget(self.clientGroupBox)
         self.setLayout(mainLayout)
 
-        self.setWindowTitle("Happynet Device Stat")
+        icon = QtGui.QIcon()
+        icon.addFile(u"res/happynet.ico", QtCore.QSize(),
+                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.setWindowIcon(icon)
+
+        self.setWindowTitle("Happynet Device Monitor")
         self.resize(900, 450)
 
         self.clientView.sortByColumn(1, QtCore.Qt.AscendingOrder)
@@ -134,8 +139,8 @@ class Window(QtWidgets.QWidget):
 
         model.setHeaderData(0, QtCore.Qt.Horizontal, "设备名称")
         model.setHeaderData(1, QtCore.Qt.Horizontal, "通讯模式")
-        model.setHeaderData(2, QtCore.Qt.Horizontal, "happynet mac地址")
-        model.setHeaderData(3, QtCore.Qt.Horizontal, "happynet 内网ip")
+        model.setHeaderData(2, QtCore.Qt.Horizontal, "happyn mac地址")
+        model.setHeaderData(3, QtCore.Qt.Horizontal, "happyn 内网ip")
         model.setHeaderData(4, QtCore.Qt.Horizontal, "本机对外通信ip:port")
         model.setHeaderData(5, QtCore.Qt.Horizontal, "最近活动时间")
 
