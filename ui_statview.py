@@ -71,7 +71,7 @@ class Window(QtWidgets.QWidget):
         self.setLayout(mainLayout)
 
         icon = QtGui.QIcon()
-        icon.addFile(u"res/happynet.ico", QtCore.QSize(),
+        icon.addFile(u"happynet.ico", QtCore.QSize(),
                         QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
 
@@ -147,7 +147,7 @@ class Window(QtWidgets.QWidget):
         for device in get_edges():
             self.addDevice(model, device['desc'], device['mode'], device['macaddr'],
                              device['ip4addr'], device['sockaddr'],
-                             QtCore.QDateTime.fromSecsSinceEpoch(device['last_seen']).toString('yyyy-MM-dd hh:mm:ss'))
+                             QtCore.QDateTime.fromMSecsSinceEpoch(device['last_seen']*1000).toString('yyyy-MM-dd hh:mm:ss'))
                       #QtCore.QDateTime(QtCore.QDate(2006, 12, 22), QtCore.QTime(9, 44)))
 
         return model
