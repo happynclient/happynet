@@ -3,5 +3,5 @@
 
 # 打包命令
 ```
-pyinstaller -F -w -i res/happynet.ico main.py 
+pyinstaller -F -w -i happynet.ico main.py 
 ```
