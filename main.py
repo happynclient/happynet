@@ -14,7 +14,7 @@ class UpdateThread(QtCore.QThread):
         while True:
             cnt += 1
             self.update_date.emit(str(cnt))
-            time.sleep(1)
+            time.sleep(5)
 
 
 if __name__ == '__main__':
