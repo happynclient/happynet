@@ -1,5 +1,7 @@
+import time
 from PySide2 import QtCore, QtWidgets, QtGui
 from netcat import get_edges
+
 
 class Window(QtWidgets.QWidget):
     def __init__(self):
@@ -64,6 +66,10 @@ class Window(QtWidgets.QWidget):
         # proxyLayout.addWidget(self.filterColumnLabel, 3, 0)
         # proxyLayout.addWidget(self.filterColumnComboBox, 3, 1, 1, 2)
         self.clientGroupBox.setLayout(proxyLayout)
+
+        self.updateTimer = QtCore.QTimer()
+        self.updateTimer.timeout.connect(self.updateClientModel)
+        self.updateTimer.start(2000)
 
         mainLayout = QtWidgets.QVBoxLayout()
         #mainLayout.addWidget(self.serverGroupBox)
@@ -132,7 +138,6 @@ class Window(QtWidgets.QWidget):
         model.setData(model.index(0, 3), ip)
         model.setData(model.index(0, 4), sockaddr)
         model.setData(model.index(0, 5), uptime)
-
 
     def updateDeviceStatModel(self):
         model = QtGui.QStandardItemModel(0, 6, self)
