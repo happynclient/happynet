@@ -12,8 +12,8 @@ class Window(QtWidgets.QWidget):
         # default set filter all key columns
         self.clientModel.setFilterKeyColumn(-1)
 
-        self.serverGroupBox = QtWidgets.QGroupBox("happyn服务端列表")
-        self.clientGroupBox = QtWidgets.QGroupBox("happyn网络客户端列表(不包括本机)")
+        self.serverGroupBox = QtWidgets.QGroupBox("Happyn Server List")
+        self.clientGroupBox = QtWidgets.QGroupBox("Happyn Device List (Excluding Localhost)")
 
         self.serverView = QtWidgets.QTreeView()
         self.serverView.setRootIsDecorated(False)
@@ -29,7 +29,7 @@ class Window(QtWidgets.QWidget):
         self.filterCaseSensitivityCheckBox = QtWidgets.QCheckBox("Case sensitive filter")
 
         self.filterPatternLineEdit = QtWidgets.QLineEdit()
-        self.filterPatternLabel = QtWidgets.QLabel("&搜索:")
+        self.filterPatternLabel = QtWidgets.QLabel("&Filter And Search:")
         self.filterPatternLabel.setBuddy(self.filterPatternLineEdit)
 
         self.filterSyntaxComboBox = QtWidgets.QComboBox()
@@ -142,12 +142,12 @@ class Window(QtWidgets.QWidget):
     def updateDeviceStatModel(self):
         model = QtGui.QStandardItemModel(0, 6, self)
 
-        model.setHeaderData(0, QtCore.Qt.Horizontal, "设备名称")
-        model.setHeaderData(1, QtCore.Qt.Horizontal, "通讯模式")
-        model.setHeaderData(2, QtCore.Qt.Horizontal, "happyn mac地址")
-        model.setHeaderData(3, QtCore.Qt.Horizontal, "happyn 内网ip")
-        model.setHeaderData(4, QtCore.Qt.Horizontal, "本机对外通信ip:port")
-        model.setHeaderData(5, QtCore.Qt.Horizontal, "最近活动时间")
+        model.setHeaderData(0, QtCore.Qt.Horizontal, "DeviceDesc")
+        model.setHeaderData(1, QtCore.Qt.Horizontal, "Net Mode")
+        model.setHeaderData(2, QtCore.Qt.Horizontal, "Happyn MacAddr")
+        model.setHeaderData(3, QtCore.Qt.Horizontal, "Happyn IpAddr")
+        model.setHeaderData(4, QtCore.Qt.Horizontal, "Outside Ip:Port")
+        model.setHeaderData(5, QtCore.Qt.Horizontal, "Recent Active Time")
 
         for device in get_edges():
             self.addDevice(model, device['desc'], device['mode'], device['macaddr'],
